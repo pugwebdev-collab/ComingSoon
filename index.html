@@ -28,40 +28,67 @@ body{background:var(--bg);color:var(--white);font-family:'Helvetica Neue',Arial,
 @keyframes fadeIn{to{opacity:1;}}
 
 /* NAV */
-header{position:fixed;top:0;left:0;right:0;z-index:60;padding:26px 5vw;padding-top:calc(26px + env(safe-area-inset-top,0px));display:flex;justify-content:space-between;align-items:center;mix-blend-mode:difference;}
-.logo{font-size:14px;letter-spacing:4px;font-weight:700;}
+header{position:fixed;top:0;left:0;right:0;z-index:60;padding:20px 4vw;padding-top:calc(20px + env(safe-area-inset-top,0px));display:flex;justify-content:flex-start;align-items:flex-start;mix-blend-mode:normal;pointer-events:none;}
+.logo{display:block;width:300px;height:auto;max-width:none;margin:0;padding:0;line-height:0;text-decoration:none;cursor:pointer;position:relative;z-index:100;pointer-events:auto;overflow:visible;transition:transform .3s ease,opacity .3s ease;}
+.logo img{display:block;width:100%;height:auto;max-width:none;max-height:none;object-fit:contain;object-position:left top;margin:0;padding:0;border:0;}
+.logo:hover{transform:scale(1.025);opacity:.9;}
+.logo:active{transform:scale(.98);}
+.logo:focus-visible{outline:2px solid var(--red);outline-offset:6px;}
 .nav-tag{font-size:11px;letter-spacing:3px;color:var(--grey);}
 
 section{position:relative;padding:140px 6vw;max-width:1400px;margin:0 auto;}
 
 /* HERO */
-.hero{min-height:100vh;padding-top:calc(120px + env(safe-area-inset-top,0px));display:flex;align-items:center;position:relative;max-width:none;}
-.hero-inner{position:relative;z-index:3;width:100%;}
+.hero{min-height:100vh;padding-top:calc(120px + env(safe-area-inset-top,0px));display:flex;align-items:center;position:relative;max-width:none;overflow:hidden;}
+
+/* HERO BACKGROUND SLIDESHOW */
+.hero{isolation:isolate;background:#050505;}
+.hero-bg-slideshow{position:absolute;inset:0;z-index:0;overflow:hidden;background:#050505;}
+.hero-bg-slide{position:absolute;inset:-4%;width:108%;height:108%;object-fit:cover;object-position:center;opacity:0;filter:saturate(.82) contrast(1.06) brightness(.55);transform:scale(1.035);will-change:opacity,transform;animation:heroImageSlide 32.5s cubic-bezier(.22,.61,.36,1) infinite;}
+.hero-bg-slide:nth-child(1){animation-delay:0s;}
+.hero-bg-slide:nth-child(2){animation-delay:6.5s;}
+.hero-bg-slide:nth-child(3){animation-delay:13s;}
+.hero-bg-slide:nth-child(4){animation-delay:19.5s;}
+.hero-bg-slide:nth-child(5){animation-delay:26s;}
+.hero-bg-vignette{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,0,0,.3) 100%,
+      rgba(0,0,0,.5) 100%,
+      rgba(0,0,0,.08) 100%
+    );
+}
+.hero-bg-grain{position:absolute;inset:0;z-index:2;opacity:.045;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");}
+@keyframes heroImageSlide{0%{opacity:0;transform:scale(1.035) translate3d(0,0,0)}4%{opacity:1}18%{opacity:1;transform:scale(1.085) translate3d(-.8%, -.35%,0)}22%{opacity:0;transform:scale(1.095) translate3d(-1.1%, -.5%,0)}100%{opacity:0;transform:scale(1.095) translate3d(-1.1%, -.5%,0)}}
+.hero-inner,.hero .globe-wrap{z-index:3;}
+@media(max-width:900px){
+  .hero{min-height:100svh;padding-top:calc(120px + env(safe-area-inset-top,0px));}
+  .hero-bg-slide{object-position:center;filter:saturate(.78) contrast(1.05) brightness(.48);}
+  .hero-bg-vignette{background:linear-gradient(90deg,rgba(0,0,0,.84),rgba(0,0,0,.58)),linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.18) 48%,rgba(0,0,0,.78));}
+}
+@media(prefers-reduced-motion:reduce){.hero-bg-slide{animation:none;opacity:0;}.hero-bg-slide:first-child{opacity:1;transform:none;}}
+.hero-inner{position:relative;z-index:3;width:58%;max-width:1000px;}
 .eyebrow{font-size:12px;letter-spacing:5px;color:var(--red);margin-bottom:28px;}
-.hero h1{font-family:'SFSportsNight',Arial,sans-serif;font-weight:400;font-size:clamp(58px,12vw,168px);line-height:0.86;letter-spacing:-2px;text-transform:uppercase;}
-.hero h1 .line{display:block;overflow:hidden;}
+.hero h1{font-family:'SFSportsNight',Arial,sans-serif;font-weight:400;font-size:clamp(52px,8.5vw,125px);line-height:.88;letter-spacing:-1px;text-transform:uppercase;max-width:950px;}
+.hero h1 .line{display:block;overflow:visible;height:auto;line-height:.88;}
 .hero h1 .line span{display:inline-block;transform:translateY(110%);animation:riseIn .9s cubic-bezier(.22,1,.36,1) forwards;}
 .hero h1 .line:nth-child(1) span{animation-delay:2.5s;}
 .hero h1 .line:nth-child(2) span{animation-delay:2.65s;}
 .hero h1 .line:nth-child(3) span{animation-delay:2.8s;color:var(--red);}
 @keyframes riseIn{to{transform:translateY(0);}}
-.hero-tag{font-size:clamp(14px,1.6vw,20px);color:var(--white);margin-top:34px;letter-spacing:1px;max-width:640px;opacity:0;animation:fadeUp .8s 3.1s forwards;}
+.hero-tag{font-size:clamp(14px,1.6vw,30px);color:var(--white);margin-top:34px;letter-spacing:0.1px;max-width:640px;opacity:0;animation:fadeUp .8s 3.1s forwards;}
+.hero-JJ{font-size:clamp(14px,1.6vw,20px);color:var(--white);margin-top:5px;letter-spacing:1px;max-width:640px;opacity:0;animation:fadeUp .8s 3.1s forwards;}
 .hero-copy{font-size:15px;color:var(--grey);margin-top:18px;max-width:480px;line-height:1.7;opacity:0;animation:fadeUp .8s 3.25s forwards;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
 .cta-row{display:flex;gap:18px;margin-top:48px;flex-wrap:wrap;opacity:0;animation:fadeUp .8s 3.4s forwards;}
-.btn{padding:17px 34px;font-size:13px;letter-spacing:2px;border-radius:2px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;transition:transform .35s cubic-bezier(.22,1,.36,1);}
-.btn-primary{background:var(--red);color:#fff;border:1px solid var(--red);}
-.btn-ghost{background:transparent;color:#fff;border:1px solid #333;}
-.btn:hover{transform:translateY(-3px);}
 
-.globe-wrap{position:absolute;right:-6vw;top:50%;transform:translateY(-50%);width:min(60vw,720px);opacity:.9;z-index:1;}
-@media (max-width:900px){.globe-wrap{position:relative;right:auto;top:auto;transform:none;width:100%;margin-top:40px;}}
-.globe-wrap svg{width:100%;height:auto;animation:spin 90s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-.pulse{animation:pulseDot 2.4s ease-in-out infinite;}
-@keyframes pulseDot{0%,100%{opacity:.4;r:2.2;}50%{opacity:1;r:4;}}
-.flow{stroke-dasharray:6 10;animation:flowLine 3s linear infinite;}
-@keyframes flowLine{to{stroke-dashoffset:-160;}}
+
+
 
 /* reveal on scroll */
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s cubic-bezier(.22,1,.36,1), transform .9s cubic-bezier(.22,1,.36,1);}
@@ -86,50 +113,11 @@ section{position:relative;padding:140px 6vw;max-width:1400px;margin:0 auto;}
 .count-foot{margin-top:34px;color:var(--grey);font-size:14px;}
 @media(max-width:640px){.timer{gap:12px;}.tblock{min-width:42%;padding:20px 10px;}}
 
-/* CARDS */
-.cards{}
-.cards h3{font-weight:900;font-size:clamp(30px,5vw,56px);text-transform:uppercase;margin-bottom:60px;letter-spacing:-1px;}
-.card{display:flex;gap:34px;align-items:baseline;padding:34px 0;border-top:1px solid #1c1c1c;transition:padding-left .4s ease, background .4s ease;}
-.card:last-child{border-bottom:1px solid #1c1c1c;}
-.card:hover{padding-left:18px;background:linear-gradient(90deg,rgba(204,0,0,.06),transparent);}
-.card .num{font-size:16px;color:var(--red);font-weight:700;min-width:36px;}
-.card .name{font-size:clamp(20px,3vw,32px);font-weight:700;text-transform:uppercase;}
-
-/* NETWORK */
-.network-section{text-align:center;}
-.network-section h3{font-weight:900;font-size:clamp(30px,5vw,56px);text-transform:uppercase;}
-.network-section .sub{color:var(--red);letter-spacing:3px;font-size:12px;margin-top:14px;}
-.map-wrap{position:relative;margin-top:60px;max-width:900px;margin-left:auto;margin-right:auto;}
-.map-wrap svg{width:100%;height:auto;}
-.node{cursor:pointer;}
-.node circle.dot{fill:var(--red);}
-.node text{fill:var(--grey);font-size:9px;letter-spacing:1px;}
-.tip{position:absolute;background:#0c0c0c;border:1px solid #262626;border-radius:4px;padding:14px 18px;font-size:11px;letter-spacing:1px;text-align:left;opacity:0;pointer-events:none;transition:opacity .25s ease;transform:translate(-50%,-115%);white-space:nowrap;}
-.tip.show{opacity:1;}
-.tip b{display:block;font-size:13px;letter-spacing:2px;margin-bottom:6px;}
-.tip .status{color:var(--red);}
-
-/* DOOR */
-.door{text-align:center;background:linear-gradient(180deg,#050505,#0d0505);}
-.door p.k1{color:var(--grey);letter-spacing:2px;font-size:13px;}
-.door h2{font-weight:900;font-size:clamp(34px,6.5vw,88px);text-transform:uppercase;margin-top:20px;line-height:1.05;}
-.door p.k2{margin-top:24px;color:var(--grey);font-size:14px;}
-
-/* EMAIL */
-.email-section{text-align:center;}
-.email-section h3{font-weight:900;font-size:clamp(28px,5vw,52px);text-transform:uppercase;}
-.email-section p{color:var(--grey);margin-top:14px;font-size:14px;}
-.email-form{display:flex;justify-content:center;gap:0;margin-top:38px;max-width:520px;margin-left:auto;margin-right:auto;border-bottom:1px solid #333;padding-bottom:14px;}
-.email-form input{flex:1;background:transparent;border:none;color:#fff;font-size:15px;padding:10px 6px;outline:none;}
-.email-form input::placeholder{color:#555;}
-.email-form button{background:transparent;border:none;color:var(--red);font-size:12px;letter-spacing:2px;cursor:pointer;padding:10px;}
-.success{margin-top:20px;color:var(--red);font-size:13px;letter-spacing:2px;opacity:0;transition:opacity .5s ease;}
-.success.show{opacity:1;}
 
 /* FOOTER */
 footer{padding:70px 6vw;padding-bottom:calc(70px + env(safe-area-inset-bottom,0px));border-top:1px solid #161616;display:flex;flex-wrap:wrap;justify-content:space-between;gap:30px;}
 .f-brand{font-weight:900;letter-spacing:2px;font-size:16px;}
-.f-tag{color:var(--grey);font-size:12px;margin-top:6px;letter-spacing:1px;}
+.f-tag{color:var(--grey);font-size:12px;margin-top:0px;margin-left: 180px;letter-spacing:1px;}
 .f-links{display:flex;gap:20px;flex-wrap:wrap;color:var(--grey);font-size:12px;letter-spacing:1px;}
 .f-links a{color:var(--grey);text-decoration:none;}
 .f-links a:hover{color:#fff;}
@@ -145,24 +133,33 @@ footer{padding:70px 6vw;padding-bottom:calc(70px + env(safe-area-inset-bottom,0p
 </div>
 
 <header>
-  <div class="logo">PRO ULTIMATE</div>
-  <div class="nav-tag">GLOBAL EXPANSION 2026</div>
+  <a href="https://www.proultimate.store/" class="logo" aria-label="Pro Ultimate Home">
+    <img src="https://static.wixstatic.com/media/fb35a4_8907fbfc68ef45e3b76191e640c9e7f2~mv2.png" alt="Pro Ultimate Gyms">
+  </a>
 </header>
 
 <section class="hero">
+
+  <!-- Animated photo background: intentionally layered to feel like a continuous video -->
+  <div class="hero-bg-slideshow" aria-hidden="true">
+    <img class="hero-bg-slide" src="https://raw.githubusercontent.com/pugwebdev-collab/ComingSoon/8f4140a9e58c0a0cd30cc69c4d07b7496ecee93a/Strength.jpg.jpeg" alt="">
+    <img class="hero-bg-slide" src="https://raw.githubusercontent.com/pugwebdev-collab/ComingSoon/8f4140a9e58c0a0cd30cc69c4d07b7496ecee93a/Cafe.jpg.jpeg" alt="">
+    <img class="hero-bg-slide" src="https://raw.githubusercontent.com/pugwebdev-collab/ComingSoon/8f4140a9e58c0a0cd30cc69c4d07b7496ecee93a/Cardio.jpg.jpeg" alt="">
+    <img class="hero-bg-slide" src="https://raw.githubusercontent.com/pugwebdev-collab/ComingSoon/8f4140a9e58c0a0cd30cc69c4d07b7496ecee93a/Reception.jpg.jpeg" alt="">
+    <img class="hero-bg-slide" src="https://raw.githubusercontent.com/pugwebdev-collab/ComingSoon/8f4140a9e58c0a0cd30cc69c4d07b7496ecee93a/Waiting%20Area_.jpg.jpeg" alt="">
+    <div class="hero-bg-vignette"></div>
+    <div class="hero-bg-grain"></div>
+  </div>
   <div class="hero-inner">
-    <div class="eyebrow">GLOBAL EXPANSION 2026</div>
+  <!-- <div class="eyebrow">GLOBAL EXPANSION 2026</div> -->
     <h1>
-      <span class="line"><span>GYM</span></span>
-      <span class="line"><span>ENTER</span></span>
-      <span class="line"><span>GLOBAL</span></span>
+      <span class="line"><span>Now</span></span>
+      <span class="line"><span>Coming TO</span></span>
+      <span class="line"><span>UAE</span></span>
     </h1>
-    <div class="hero-tag">The next era of fitness is going global.</div>
-    <p class="hero-copy">From engineered commercial equipment to complete gym ecosystems, Pro Ultimate is expanding its vision beyond India.</p>
-    <div class="cta-row">
-      <a href="#countdown" class="btn btn-primary">Enter the Global Experience</a>
-      <a href="#network" class="btn btn-ghost">Explore Pro Ultimate</a>
-    </div>
+    <div class="hero-tag">Pro Ultimate Gyms</div>
+    <div class="hero-JJ">Openning Soon in Dubai</div>
+    
   </div>
   <div class="globe-wrap">
     <svg viewBox="0 0 500 500">
@@ -197,88 +194,27 @@ footer{padding:70px 6vw;padding-bottom:calc(70px + env(safe-area-inset-bottom,0p
 
 <section class="statement reveal">
   <h2>FROM INDIA.<br><span class="grey-line">TO THE WORLD.</span></h2>
-  <p class="sub">PRO ULTIMATE IS GLOBAL</p>
-  <p class="small">Built in India. Designed for the world.</p>
 </section>
 
 <section id="countdown" class="countdown-section reveal">
-  <div class="count-label">GLOBAL LAUNCH IN</div>
   <div class="timer" id="timer">
-    <div class="tblock"><div class="tnum" id="d">120</div><div class="tlabel">DAYS</div></div>
-    <div class="tblock"><div class="tnum" id="h">08</div><div class="tlabel">HOURS</div></div>
-    <div class="tblock"><div class="tnum" id="m">42</div><div class="tlabel">MINUTES</div></div>
+    <div class="tblock"><div class="tnum" id="d">129</div><div class="tlabel">DAYS</div></div>
+    <div class="tblock"><div class="tnum" id="h">07</div><div class="tlabel">HOURS</div></div>
+    <div class="tblock"><div class="tnum" id="m">15</div><div class="tlabel">MINUTES</div></div>
     <div class="tblock"><div class="tnum" id="s">17</div><div class="tlabel">SECONDS</div></div>
   </div>
   <div class="count-foot" id="countFoot">Something bigger is coming.</div>
 </section>
 
-<section class="cards reveal">
-  <h3>More Than Equipment.</h3>
-  <div class="card"><div class="num">01</div><div class="name">Commercial Gym Equipment</div></div>
-  <div class="card"><div class="num">02</div><div class="name">Complete Gym Setups</div></div>
-  <div class="card"><div class="num">03</div><div class="name">Fitness Space Planning</div></div>
-  <div class="card"><div class="num">04</div><div class="name">Installation &amp; Support</div></div>
-  <div class="card"><div class="num">05</div><div class="name">Global Fitness Solutions</div></div>
-</section>
-
-<section id="network" class="network-section reveal">
-  <h3>The Global Network</h3>
-  <div class="sub">THE JOURNEY HAS STARTED.</div>
-  <div class="map-wrap">
-    <svg viewBox="0 0 800 420">
-      <defs>
-        <path id="indiaOutlineNet" d="M28,6 L24,12 L20,10 L26,16 L33,4 L40,10 L36,16 L44,20 L52,16 L58,22 L66,20 L72,26 L68,32 L74,36 L70,42 L76,40 L84,34 L92,30 L98,34 L100,42 L95,48 L90,44 L86,52 L80,56 L74,58 L68,54 L64,58 L66,64 L62,72 L64,80 L60,88 L56,96 L50,104 L44,112 L38,116 L32,110 L26,100 L22,90 L18,80 L16,70 L12,60 L8,52 L4,48 L8,44 L14,46 L10,40 L16,36 L12,30 L18,24 L14,18 L20,12 L24,8 Z"/>
-        <filter id="glowNet" x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur stdDeviation="2.2" result="b"/>
-          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-      </defs>
-      <g stroke="#161616"><line x1="0" y1="60" x2="800" y2="60"/><line x1="0" y1="150" x2="800" y2="150"/><line x1="0" y1="240" x2="800" y2="240"/><line x1="0" y1="330" x2="800" y2="330"/></g>
-      <use href="#indiaOutlineNet" transform="translate(280,105) scale(1.5)" fill="rgba(204,0,0,0.4)" stroke="#CC0000" stroke-width="1" filter="url(#glowNet)"/>
-      <circle cx="330" cy="200" r="4" fill="#fff"/>
-      <text x="335" y="222" fill="#A0A0A0" font-size="9" letter-spacing="1">INDIA</text>
-      <g stroke="#CC0000" stroke-width="1" fill="none" opacity=".7">
-        <path class="flow" d="M330,200 Q400,120 470,110"/>
-        <path class="flow" d="M330,200 Q420,170 500,190"/>
-        <path class="flow" d="M330,200 Q300,140 270,90"/>
-        <path class="flow" d="M330,200 Q290,260 240,300"/>
-        <path class="flow" d="M330,200 Q200,180 130,150"/>
-        <path class="flow" d="M330,200 Q180,260 100,260"/>
-      </g>
-      <g class="node" data-name="DUBAI" data-x="470" data-y="110"><circle class="dot pulse" cx="470" cy="110" r="3"/><text x="478" y="108">DUBAI</text></g>
-      <g class="node" data-name="OMAN" data-x="500" data-y="190"><circle class="dot pulse" cx="500" cy="190" r="3"/><text x="508" y="188">OMAN</text></g>
-      <g class="node" data-name="NEPAL" data-x="270" data-y="90"><circle class="dot pulse" cx="270" cy="90" r="3"/><text x="278" y="88">NEPAL</text></g>
-      <g class="node" data-name="BHUTAN" data-x="240" data-y="300"><circle class="dot pulse" cx="240" cy="300" r="3"/><text x="248" y="298">BHUTAN</text></g>
-      <g class="node" data-name="MALDIVES" data-x="130" data-y="150"><circle class="dot pulse" cx="130" cy="150" r="3"/><text x="138" y="148">MALDIVES</text></g>
-      <g class="node" data-name="GAMBIA" data-x="100" data-y="260"><circle class="dot pulse" cx="100" cy="260" r="3"/><text x="108" y="258">GAMBIA</text></g>
-    </svg>
-    <div class="tip" id="tip"><b id="tipName">DUBAI</b>GLOBAL NETWORK<br><span class="status">ACTIVE</span></div>
-  </div>
-</section>
-
-<section class="door reveal">
-  <p class="k1">WE ARE NOT JUST OPENING A WEBSITE.</p>
-  <h2>WE ARE OPENING<br>A GLOBAL DOOR.</h2>
-  <p class="k2">Pro Ultimate Gym Enter Global is coming soon.</p>
-</section>
-
-<section class="email-section reveal">
-  <h3>Be The First To Enter.</h3>
-  <p>Get notified when Pro Ultimate Gym Enter Global goes live.</p>
-  <form class="email-form" id="emailForm">
-    <input type="email" required placeholder="Enter your email address">
-    <button type="submit">NOTIFY ME</button>
-  </form>
-  <div class="success" id="success">YOU'RE ON THE LIST.</div>
-</section>
-
 <footer>
   <div>
-    <div class="f-brand">PRO ULTIMATE</div>
-    <div class="f-tag">GYM ENTER GLOBAL</div>
+    <a href="https://www.proultimate.store/" class="logo" aria-label="Pro Ultimate Home">
+    <img src="https://static.wixstatic.com/media/fb35a4_8907fbfc68ef45e3b76191e640c9e7f2~mv2.png" alt="Pro Ultimate Gyms">
+  </a>
+    <div class="f-tag">200+ Franchises</div>
   </div>
   <div class="f-links">
-    <a href="#">Instagram</a><a href="#">Facebook</a><a href="#">LinkedIn</a><a href="#">YouTube</a><a href="#">WhatsApp</a><a href="#">Email</a>
+    <a href="https://www.instagram.com/proultimate.uae?stkn=M2UwbWcyOHkzdGNy">Instagram</a>
   </div>
   <div class="f-copy">© 2026 Pro Ultimate. All rights reserved.</div>
 </footer>
@@ -291,8 +227,8 @@ window.addEventListener('load',()=>{
 
 // countdown — change target date here
 const target = new Date();
-target.setDate(target.getDate()+120);
-target.setHours(target.getHours()+8, target.getMinutes()+42, target.getSeconds()+17);
+target.setDate(target.getDate()+129);
+target.setHours(target.getHours()+07, target.getMinutes()+15, target.getSeconds()+17);
 
 function pad(n){return String(n).padStart(2,'0');}
 let prev={};
